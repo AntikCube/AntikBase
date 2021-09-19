@@ -1,0 +1,102 @@
+name: AntikBase
+version: ${project.version}
+main: antikbase.AntikBase
+api-version: 1.17
+authors: [ MrCoq ]
+depend:
+  - Vault
+
+commands:
+  spawn:
+    description: Spawn command
+  setspawn:
+    description: Set spawn command
+
+  warp:
+    description: Tp warp command
+  setwarp:
+    description: Set warp command
+  delwarp:
+    description: Delete warp command
+  warps:
+    description: Warp list command
+
+  home:
+    description: Home command
+  sethome:
+    description: Sethome command
+  delhome:
+    description: Delhome command
+  homes:
+    description: Home list command
+  ahome:
+    description: Home Admin command
+
+  perm:
+
+  tpa:
+    description: Send teleport request command
+  tpyes:
+    description: Accept teleport request command
+
+  money:
+    description: Money command
+  eco:
+    description: Manage economy command
+
+  invsee:
+    description: Invsee command
+
+  pt:
+    description: PT command
+
+permissions:
+  antikbase.warp.tp:
+    default: true
+  antikbase.warp.view:
+    default: true
+  antikbase.warp.set:
+    default: op
+  antikbase.warp.del:
+    default: op
+  antikbase.warp.*:
+    default: op
+
+  antikbase.home.tp:
+    default: true
+  antikbase.home.view:
+    default: true
+  antikbase.home.set:
+    default: true
+  antikbase.home.del:
+    default: true
+  antikbase.home.*:
+    default: op
+  antikbase.home.admin:
+    default: op
+
+  antikbase.money:
+    default: true
+
+  antikbase.eco.give:
+    default: op
+  antikbase.eco.remove:
+    default: op
+  antikbase.eco.set:
+    default: op
+  antikbase.eco.reset:
+    default: op
+
+  antikbase.spawn.tp:
+    default: true
+  antikbase.spawn.set:
+    default: op
+  antikbase.spawn.*:
+    default: op
+
+  antikbase.teleport.to:
+    default: true
+  antikbase.teleport.accept:
+    default: true
+  antikbase.teleport.bypass:
+    default: op
