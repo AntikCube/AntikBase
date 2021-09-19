@@ -6,7 +6,7 @@ import antikbase.economy.commands.EcoTabCompleter;
 import antikbase.economy.commands.MoneyCommand;
 import antikbase.economy.events.JoinEvent;
 import antikbase.events.DeathEvent;
-import antikbase.events.PlaceChestEvent;
+import antikbase.events.chest.ChestEvents;
 import antikbase.events.PtEvent;
 import antikbase.events.TeleportEvent;
 import antikbase.managers.teleport.TeleportManager;
@@ -95,7 +95,7 @@ public final class AntikBase extends JavaPlugin {
     private void registerEvents() {
         registerEvent(new DeathEvent(this));
         registerEvent(new TeleportEvent(this));
-        registerEvent(new PlaceChestEvent());
+        registerEvent(new ChestEvents());
         registerEvent(new PtEvent(this));
         registerEvent(new JoinEvent());
     }
