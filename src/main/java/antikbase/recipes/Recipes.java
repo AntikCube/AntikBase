@@ -17,7 +17,7 @@ public class Recipes {
     private AntikBase antikBase;
 
 
-    private ItemStack privateChest;
+    private static ItemStack privateChest;
 
     public Recipes(AntikBase antikBase) {
         this.antikBase = antikBase;
@@ -45,10 +45,11 @@ public class Recipes {
         r.setIngredient('H', Material.CHAIN);
         r.setIngredient('T', Material.TRIPWIRE_HOOK);
 
-
-
         Bukkit.addRecipe(r);
+    }
 
+    public static ItemStack getPrivateChest() {
+        return privateChest;
     }
 
 }
