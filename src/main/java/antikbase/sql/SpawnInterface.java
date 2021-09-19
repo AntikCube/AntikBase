@@ -10,7 +10,7 @@ public class SpawnInterface extends SQL {
     private final String table = "Spawn";
 
     public SpawnInterface() {
-        this.connectToDb("localhost:3306/antikcubes", "antik", "ant!k127");
+        this.connectToDb("localhost:3306/antikcubes", null, null);
     }
 
     @Override
