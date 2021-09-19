@@ -1,18 +1,24 @@
 package antikbase.events.chest;
 
 import antikbase.recipes.Recipes;
+import org.bukkit.block.Block;
 import org.bukkit.block.Chest;
+import org.bukkit.block.DoubleChest;
+import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.Action;
+import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
+import org.bukkit.event.entity.EntityPickupItemEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 public class ChestEvents implements Listener {
 
-    private String privateChestTitle = "§7[§cPrivé§7] §7";
+    private String privateChestTitle = "§8[§cPrivé§8] §c";
 
     @EventHandler
     public void onPlace(BlockPlaceEvent e) {
@@ -36,6 +42,7 @@ public class ChestEvents implements Listener {
     @EventHandler
     public void onOpenChest(PlayerInteractEvent e) {
         if(e.getClickedBlock() == null) return;
+        if(e.getAction() != Action.RIGHT_CLICK_BLOCK) return;
         if(!(e.getClickedBlock().getState() instanceof Chest)) return;
 
         Player player = e.getPlayer();
@@ -43,9 +50,55 @@ public class ChestEvents implements Listener {
         Chest chest = (Chest) e.getClickedBlock().getState();
         String chestTitle = chest.getCustomName();
 
+        if(chestTitle == null)
+            chestTitle = player.getOpenInventory().getTitle();
+
         if(!chestTitle.contains(privateChestTitle)) return;
 
-        e.setCancelled(!chestTitle.contains(player.getName()));
+        if(chestTitle.contains(player.getName())) return;
 
+        player.sendMessage("§cVous ne pouvez pas accéder à ce coffre");
+        e.setCancelled(true);
+    }
+
+    @EventHandler
+    public void onBreakChest(BlockBreakEvent e) {
+        Block block = e.getBlock();
+
+        if(!(block.getState() instanceof Chest)) return;
+
+        Player player = e.getPlayer();
+
+        Chest chest = (Chest) block.getState();
+        String chestTitle = chest.getCustomName();
+
+        if(chestTitle == null)
+            chestTitle = player.getOpenInventory().getTitle();
+
+        if(!chestTitle.contains(privateChestTitle)) return;
+
+        if(chestTitle.contains(player.getName())) return;
+
+        player.sendMessage("§cVous ne pouvez pas casser à ce coffre");
+        e.setCancelled(true);
+    }
+
+    @EventHandler
+    public void onTakeChest(EntityPickupItemEvent e) {
+        if(!(e.getEntity() instanceof Player)) return;
+
+        Item item = e.getItem();
+        ItemStack itemStack = item.getItemStack();
+
+        if(!itemStack.hasItemMeta()) return;
+
+        ItemMeta itemMeta = itemStack.getItemMeta();
+        ItemMeta privateChestMeta = Recipes.getPrivateChest().getItemMeta();
+
+        if(!itemMeta.getDisplayName().contains(privateChestTitle)) return;
+
+        itemMeta.setDisplayName(privateChestMeta.getDisplayName());
+        itemStack.setItemMeta(itemMeta);
+        item.setItemStack(itemStack);
     }
 }
