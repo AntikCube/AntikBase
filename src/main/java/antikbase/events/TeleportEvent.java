@@ -28,12 +28,11 @@ public class TeleportEvent implements Listener {
 
     @EventHandler
     public void onMove(PlayerMoveEvent e) {
-
         if(teleportManager.get(e.getPlayer()) == null) return;
 
         Teleport teleport = teleportManager.get(e.getPlayer());
 
-        if(teleport.getFrom().getBlock() != e.getPlayer().getLocation().getBlock()) {
+        if (teleport.getFrom().getBlock() != e.getPlayer().getLocation().getBlock()) {
             teleport.stop();
         }
     }
