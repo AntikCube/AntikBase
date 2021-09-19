@@ -21,7 +21,6 @@ public class PtEvent implements Listener {
 
     @EventHandler
     public void onTap(PlayerInteractEvent e) {
-
         Player player = e.getPlayer();
 
         if(!player.isOp() && !player.hasPermission("*"))
