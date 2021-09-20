@@ -21,8 +21,6 @@ public class Recipes {
 
     public Recipes(AntikBase antikBase) {
         this.antikBase = antikBase;
-
-
         init();
     }
 
