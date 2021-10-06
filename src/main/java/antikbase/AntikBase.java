@@ -9,6 +9,7 @@ import antikbase.events.DeathEvent;
 import antikbase.events.chest.ChestEvents;
 import antikbase.events.PtEvent;
 import antikbase.events.TeleportEvent;
+import antikbase.events.chest.MinecartHopperEvent;
 import antikbase.managers.teleport.TeleportManager;
 import antikbase.recipes.Recipes;
 import antikbase.sql.HomeInterface;
@@ -98,6 +99,7 @@ public final class AntikBase extends JavaPlugin {
         registerEvent(new ChestEvents());
         registerEvent(new PtEvent(this));
         registerEvent(new JoinEvent());
+        registerEvent(new MinecartHopperEvent());
     }
 
     private void registerShapes() {

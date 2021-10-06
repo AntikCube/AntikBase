@@ -18,7 +18,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 public class ChestEvents implements Listener {
 
-    private String privateChestTitle = "§8[§cPrivé§8] §c";
+    private static String privateChestTitle = "§8[§cPrivé§8] §c";
 
     @EventHandler
     public void onPlace(BlockPlaceEvent e) {
@@ -100,5 +100,9 @@ public class ChestEvents implements Listener {
         itemMeta.setDisplayName(privateChestMeta.getDisplayName());
         itemStack.setItemMeta(itemMeta);
         item.setItemStack(itemStack);
+    }
+
+    public static String getPrivateChestTitle() {
+        return privateChestTitle;
     }
 }
