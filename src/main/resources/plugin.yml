@@ -75,7 +75,9 @@ permissions:
   antikbase.home.admin:
     default: op
 
-  antikbase.money:
+  antikbase.money.pay:
+    default: true
+  antikbase.money.view:
     default: true
 
   antikbase.eco.give:
@@ -85,6 +87,8 @@ permissions:
   antikbase.eco.set:
     default: op
   antikbase.eco.reset:
+    default: op
+  antikbase.eco.*:
     default: op
 
   antikbase.spawn.tp:
@@ -99,4 +103,9 @@ permissions:
   antikbase.teleport.accept:
     default: true
   antikbase.teleport.bypass:
+    default: op
+
+  antikbase.invsee.open:
+    default: op
+  antikbase.invsee.*:
     default: op

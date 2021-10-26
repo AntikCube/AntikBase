@@ -18,11 +18,6 @@ public class EcoCommand implements CommandExecutor {
 
         Player player = (Player) sender;
 
-        if(!hasPermissions(player, "")) {
-            player.sendMessage("§cVous n'avez pas la permission d'exécuter cette commande");
-            return true;
-        }
-
         if(args.length > 1){
             switch(args[0]) {
                 case "give":

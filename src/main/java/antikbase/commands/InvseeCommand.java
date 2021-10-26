@@ -12,7 +12,7 @@ public class InvseeCommand implements CommandExecutor {
 
         Player player = (Player) sender;
 
-        if(!hasPermissions(player, "*")) {
+        if(!hasPermissions(player, "open")) {
             player.sendMessage("§cVous n'avez pas la permission d'exécuter cette commande");
             return true;
         }
