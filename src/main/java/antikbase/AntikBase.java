@@ -6,6 +6,7 @@ import antikbase.economy.commands.EcoTabCompleter;
 import antikbase.economy.commands.MoneyCommand;
 import antikbase.economy.events.JoinEvent;
 import antikbase.events.DeathEvent;
+import antikbase.events.DisconnectEvent;
 import antikbase.events.chest.ChestEvents;
 import antikbase.events.PtEvent;
 import antikbase.events.TeleportEvent;
@@ -46,7 +47,6 @@ public final class AntikBase extends JavaPlugin {
     public void onEnable() {
         // Plugin startup logic
         instance = this;
-
         pluginManager = this.getServer().getPluginManager();
 
         if (!setupEconomy()) {
@@ -57,10 +57,13 @@ public final class AntikBase extends JavaPlugin {
 
         registers();
 
+        // https://www.spigotmc.org/wiki/bukkit-bungee-plugin-messaging-channel/
+        getServer().getMessenger().registerOutgoingPluginChannel(this, "BungeeCord");
     }
 
     @Override
     public void onDisable() {
+        getServer().getMessenger().unregisterOutgoingPluginChannel(this);
     }
 
     private void registers() {
@@ -87,17 +90,17 @@ public final class AntikBase extends JavaPlugin {
         registerCommandExecutor(new EcoCommand(), "eco");
         registerTabCompleter(new EcoTabCompleter(), "eco");
 
-        registerCommandExecutor(new PermCommands(), "perm");
         registerCommandExecutor(new InvseeCommand(), "invsee");
 
         registerCommandExecutor(new PtCommand(this), "pt");
     }
 
     private void registerEvents() {
-        registerEvent(new DeathEvent(this));
-        registerEvent(new TeleportEvent(this));
+        registerEvent(new DisconnectEvent());
+        registerEvent(new DeathEvent());
+        registerEvent(new TeleportEvent());
         registerEvent(new ChestEvents());
-        registerEvent(new PtEvent(this));
+        registerEvent(new PtEvent());
         registerEvent(new JoinEvent());
         registerEvent(new MinecartHopperEvent());
     }
