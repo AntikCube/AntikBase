@@ -10,6 +10,8 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import java.util.Comparator;
+
 public class HomeCommands implements CommandExecutor {
 
     private AntikBase antikBase;
@@ -27,7 +29,7 @@ public class HomeCommands implements CommandExecutor {
 
         Player player = (Player) sender;
 
-        switch (command.getName()) {
+        switch(command.getName()) {
             case "sethome":
                 return setHome(player, command, args);
             case "delhome":
@@ -54,6 +56,13 @@ public class HomeCommands implements CommandExecutor {
             return true;
         }
 
+        String maxHome = player.getEffectivePermissions().stream().filter(perm -> perm.getPermission().contains("antikbase.home.size.")).map(perm -> perm.getPermission().replace("antikbase.home.size.", "")).max(Comparator.comparingInt(Integer::parseInt)).orElse(null);
+
+        if(maxHome == null) {
+            player.sendMessage("§cVous n'avez pas la permission d'avoir des homes. Veuillez contacter un administrateur.");
+            return true;
+        }
+
         String home = args[0].replaceAll("[^a-zA-Z0-9]", "");
 
         homesInterface.homeExist(player, home).thenAccept(bool -> {
@@ -61,8 +70,15 @@ public class HomeCommands implements CommandExecutor {
                 homesInterface.setHome(player, home);
                 player.sendMessage("§aHome mis à jour avec succès");
             } else {
-                homesInterface.createHome(player, home);
-                player.sendMessage("§aHome créé avec succès");
+                homesInterface.getHomesList(player).thenAccept(list -> {
+                    if(list.size() < Integer.parseInt(maxHome)) {
+                        homesInterface.createHome(player, home);
+                        player.sendMessage("§aHome créé avec succès");
+                    } else {
+                        player.sendMessage("§cVous avez atteint votre limite de home (" + list.size() + "/" + maxHome + ")");
+                    }
+                });
+
             }
         });
 
@@ -131,18 +147,25 @@ public class HomeCommands implements CommandExecutor {
             return true;
         }
 
+        String maxHome = player.getEffectivePermissions().stream().filter(perm -> perm.getPermission().contains("antikbase.home.size.")).map(perm -> perm.getPermission().replace("antikbase.home.size.", "")).max(Comparator.comparingInt(Integer::parseInt)).orElse(null);
+
+        if(maxHome == null) {
+            player.sendMessage("§cVous n'avez pas la permission d'avoir des homes. Veuillez contacter un administrateur.");
+            return true;
+        }
+
         if(hasPermissions(player, "admin") && args.length == 1) {
             try {
                 OfflinePlayer target = Bukkit.getOfflinePlayer(args[0]);
                 homesInterface.getHomesList(target).thenAccept(list -> {
-                    player.sendMessage(String.format("§6Liste des homes de %s ", target.getName()) + "\n§7" + StringUtils.join(list, "§8, §7"));
+                    player.sendMessage(String.format("§6Liste des homes de %s ", target.getName()) + " (" + list.size() + "/" + maxHome + ")\n§7" + StringUtils.join(list, "§8, §7"));
                 });
-            } catch (Exception ignore) {
+            } catch(Exception ignore) {
                 player.sendMessage("§cLe joueur n'existe pas");
             }
         } else {
             homesInterface.getHomesList(player).thenAccept(list -> {
-                player.sendMessage("§6Liste des homes : \n§7" + StringUtils.join(list, "§8, §7"));
+                player.sendMessage("§6Liste des homes  (" + list.size() + "/" + maxHome + ") : \n§7" + StringUtils.join(list, "§8, §7"));
             });
         }
 

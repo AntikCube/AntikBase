@@ -32,8 +32,6 @@ commands:
   ahome:
     description: Home Admin command
 
-  perm:
-
   tpa:
     description: Send teleport request command
   tpyes:
@@ -66,6 +64,8 @@ permissions:
     default: true
   antikbase.home.view:
     default: true
+  antikbase.home.size:
+    default: false
   antikbase.home.set:
     default: true
   antikbase.home.del:
