@@ -13,8 +13,8 @@ public class TeleportEvent implements Listener {
     private AntikBase antikBase;
     private TeleportManager teleportManager;
 
-    public TeleportEvent(AntikBase antikBase) {
-        this.antikBase = antikBase;
+    public TeleportEvent() {
+        this.antikBase = AntikBase.getInstance();
         this.teleportManager = antikBase.getTeleportManager();
     }
 

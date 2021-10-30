@@ -15,8 +15,8 @@ public class PtEvent implements Listener {
 
     private AntikBase antikBase;
 
-    public PtEvent(AntikBase antikBase) {
-        this.antikBase = antikBase;
+    public PtEvent() {
+        this.antikBase = AntikBase.getInstance();
     }
 
     @EventHandler

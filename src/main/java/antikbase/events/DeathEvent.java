@@ -13,8 +13,8 @@ public class DeathEvent implements Listener {
     private AntikBase antikBase;
     private SpawnInterface spawnInterface;
 
-    public DeathEvent(AntikBase antikBase) {
-        this.antikBase = antikBase;
+    public DeathEvent() {
+        this.antikBase = AntikBase.getInstance();
         this.spawnInterface = antikBase.getSpawnInterface();
     }
 
