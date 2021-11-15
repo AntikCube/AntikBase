@@ -11,11 +11,7 @@ import org.bukkit.entity.Player;
 
 public class MoneyCommand implements CommandExecutor {
 
-    private Economy economy;
-
-    public MoneyCommand(AntikBase antikBase) {
-        this.economy = antikBase.getEconomy();
-    }
+    private Economy economy = AntikBase.getInstance().getEconomy();
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {

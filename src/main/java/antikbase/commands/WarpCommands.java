@@ -1,6 +1,7 @@
 package antikbase.commands;
 
 import antikbase.AntikBase;
+import antikbase.sql.SpawnInterface;
 import antikbase.sql.WarpInterface;
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.Bukkit;
@@ -11,13 +12,8 @@ import org.bukkit.entity.Player;
 
 public class WarpCommands implements CommandExecutor {
 
-    private AntikBase antikBase;
-    private WarpInterface warpInterface;
-
-    public WarpCommands(AntikBase antikBase) {
-        this.antikBase = antikBase;
-        this.warpInterface = antikBase.getWarpInterface();
-    }
+    private AntikBase antikBase = AntikBase.getInstance();
+    private WarpInterface warpInterface = antikBase.getWarpInterface();
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {

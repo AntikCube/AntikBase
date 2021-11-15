@@ -10,11 +10,14 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockBreakEvent;
+import org.bukkit.event.block.BlockExplodeEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.EntityPickupItemEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+
+import java.util.Iterator;
 
 public class ChestEvents implements Listener {
 
@@ -100,6 +103,23 @@ public class ChestEvents implements Listener {
         itemMeta.setDisplayName(privateChestMeta.getDisplayName());
         itemStack.setItemMeta(itemMeta);
         item.setItemStack(itemStack);
+    }
+
+    @EventHandler
+    public void onTnt(BlockExplodeEvent e) {
+        Iterator<Block> iterator = e.blockList().iterator();
+
+        while(iterator.hasNext()) {
+            Block block = iterator.next();
+            if(!(block.getState() instanceof Chest)) continue;
+
+            Chest chest = (Chest) block.getState();
+            String chestTitle = chest.getCustomName();
+
+            chestTitle.contains(privateChestTitle);
+            e.blockList().remove(block);
+        }
+
     }
 
     public static String getPrivateChestTitle() {

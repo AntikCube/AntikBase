@@ -14,13 +14,8 @@ import java.util.Comparator;
 
 public class HomeCommands implements CommandExecutor {
 
-    private AntikBase antikBase;
-    private HomeInterface homesInterface;
-
-    public HomeCommands(AntikBase antikBase) {
-        this.antikBase = antikBase;
-        this.homesInterface = antikBase.getHomeInterface();
-    }
+    private AntikBase antikBase = AntikBase.getInstance();
+    private HomeInterface homesInterface = antikBase.getHomeInterface();
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {

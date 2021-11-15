@@ -10,13 +10,8 @@ import org.bukkit.entity.Player;
 
 public class SpawnCommands implements CommandExecutor {
 
-    private AntikBase antikBase;
-    private SpawnInterface spawnInterface;
-
-    public SpawnCommands(AntikBase antikBase) {
-        this.antikBase = antikBase;
-        this.spawnInterface = antikBase.getSpawnInterface();
-    }
+    private AntikBase antikBase = AntikBase.getInstance();
+    private SpawnInterface spawnInterface = antikBase.getSpawnInterface();
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {

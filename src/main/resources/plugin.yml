@@ -7,10 +7,25 @@ depend:
   - Vault
 
 commands:
+  vote:
+    description: Vote command
+  site:
+    description: Site command
+  discord:
+    description: Discord command
+  boutique:
+    description: Boutique command
+
+  kitstarter:
+    description: Console command
+
   spawn:
     description: Spawn command
   setspawn:
     description: Set spawn command
+
+  tp:
+    description: Tp command
 
   warp:
     description: Tp warp command
@@ -36,9 +51,13 @@ commands:
     description: Send teleport request command
   tpyes:
     description: Accept teleport request command
+  rtp:
+    description: RTP Command
 
   money:
     description: Money command
+  pay:
+    description: Pay command
   eco:
     description: Manage economy command
 
@@ -102,10 +121,19 @@ permissions:
     default: true
   antikbase.teleport.accept:
     default: true
+  antikbase.teleport.rtp:
+    default: true
+  antikbase.teleport.tp:
+    default: op
   antikbase.teleport.bypass:
     default: op
 
   antikbase.invsee.open:
     default: op
   antikbase.invsee.*:
+    default: op
+
+  antikbase.shulker.open:
+    default: op
+  antikbase.shulker.*:
     default: op

@@ -18,7 +18,7 @@ public class EcoCommand implements CommandExecutor {
 
         Player player = (Player) sender;
 
-        if(args.length > 1){
+        if(args.length > 1) {
             switch(args[0]) {
                 case "give":
                     return give(player, args);

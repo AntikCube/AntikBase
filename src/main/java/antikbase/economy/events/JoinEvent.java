@@ -16,6 +16,7 @@ public class JoinEvent implements Listener {
         if(!economy.hasAccount(e.getPlayer())) {
             economy.createPlayerAccount(e.getPlayer());
         }
+
     }
 
 }
