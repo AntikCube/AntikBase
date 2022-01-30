@@ -1,15 +1,10 @@
 package antikbase.events;
 
 import org.bukkit.block.ShulkerBox;
-import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.inventory.InventoryAction;
-import org.bukkit.event.inventory.InventoryClickEvent;
-import org.bukkit.event.inventory.InventoryCloseEvent;
-import org.bukkit.event.inventory.InventoryType;
-import org.bukkit.inventory.Inventory;
+import org.bukkit.event.inventory.*;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.BlockStateMeta;
 
@@ -25,18 +20,15 @@ public class ShulkerBoxInvEvent implements Listener {
         if(!hasPermissions((Player) e.getWhoClicked(), "open"))
             return;
 
-        switch(e.getInventory().getType()) {
-            case SHULKER_BOX:
-                updateShulker(e);
-                break;
-            default:
-                openShulker(e);
-                break;
+        if(e.getInventory().getType() == InventoryType.SHULKER_BOX) {
+            updateShulker(e);
+        } else {
+            openShulker(e);
         }
+
     }
 
     public void openShulker(InventoryClickEvent e) {
-
         if(e.getAction() != InventoryAction.NOTHING)
             return;
 
