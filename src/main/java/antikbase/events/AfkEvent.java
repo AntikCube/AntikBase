@@ -19,7 +19,7 @@ public class AfkEvent implements Listener {
 
     public AfkEvent() {
         this.antikBase = AntikBase.getInstance();
-        Bukkit.getScheduler().scheduleSyncRepeatingTask(this.antikBase, this::timeoutKick, 20 * 60 * 5, 20 * 60 * 5);
+        Bukkit.getScheduler().scheduleSyncRepeatingTask(this.antikBase, this::timeoutKick, 20 * 60 * 2, 20 * 60 * 2);
     }
 
     @EventHandler
