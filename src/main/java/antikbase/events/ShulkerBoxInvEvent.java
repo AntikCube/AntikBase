@@ -1,10 +1,13 @@
 package antikbase.events;
 
+import org.bukkit.Material;
+import org.bukkit.block.Block;
 import org.bukkit.block.ShulkerBox;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.*;
+import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.BlockStateMeta;
 
@@ -43,6 +46,8 @@ public class ShulkerBoxInvEvent implements Listener {
             return;
 
         ShulkerBox shulker = (ShulkerBox) blockStateMeta.getBlockState();
+        shulker.update();
+
         e.getWhoClicked().openInventory(shulker.getInventory());
 
         maps.put((Player) e.getWhoClicked(), itemStack);
@@ -63,8 +68,10 @@ public class ShulkerBoxInvEvent implements Listener {
         shulker.update();
 
         blockStateMeta.setBlockState(shulker);
+        shulker.update();
 
         itemStack.setItemMeta(blockStateMeta);
+
     }
 
     @EventHandler
@@ -73,6 +80,21 @@ public class ShulkerBoxInvEvent implements Listener {
             return;
 
         maps.remove((Player) e.getPlayer());
+    }
+
+    @EventHandler
+    public void onDrop(PlayerDropItemEvent e) {
+        ItemStack itemStack = e.getItemDrop().getItemStack();
+
+        if(!itemStack.getType().name().contains("SHULKER_BOX"))
+            return;
+
+        if(!(itemStack.getItemMeta() instanceof BlockStateMeta))
+            return;
+
+        if(e.getPlayer().getOpenInventory().getTopInventory().getType() == InventoryType.SHULKER_BOX) {
+            e.setCancelled(true);
+        }
     }
 
     private boolean hasPermissions(Player player, String permission) {
