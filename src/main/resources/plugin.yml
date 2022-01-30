@@ -16,6 +16,16 @@ commands:
   boutique:
     description: Boutique command
 
+  tuto:
+    aliases: [tutoriel, tutorial]
+    description: Tuto command
+  ressource:
+    aliases: [ressources, ress]
+    description: Ressource command
+  construction:
+    aliases: [constru, const]
+    description: Ressource command
+
   kitstarter:
     description: Console command
 
@@ -93,6 +103,12 @@ permissions:
     default: op
   antikbase.home.admin:
     default: op
+
+  antikbase.afk.bypass:
+    default: op
+  antikbase.afk.*:
+    default: op
+
 
   antikbase.money.pay:
     default: true

@@ -111,14 +111,29 @@ public class HomeCommands implements CommandExecutor {
             return true;
         }
 
-        if(args.length != 1) {
+        /*if(args.length != 1) {
             player.sendMessage(String.format("§cFaites : /%s <nom>", command.getName()));
             return true;
-        }
+        }*/
 
-        String home = args[0].replaceAll("[^a-zA-Z0-9]", "");
+        homesInterface.getHomesList(player).thenAccept((list) -> {
+            if(args.length == 0 && list.size() > 0) {
+                homesInterface.getHomeLocation(player, list.get(0)).thenAccept(loc -> {
+                    Bukkit.getScheduler().runTask(AntikBase.getInstance(), () -> player.teleport(loc));
+                });
 
-        homesInterface.homeExist(player, home).thenAccept(bool -> {
+            } else if(list.contains(args[0].replaceAll("[^a-zA-Z0-9]", ""))) {
+                homesInterface.getHomeLocation(player, args[0].replaceAll("[^a-zA-Z0-9]", "")).thenAccept(loc -> {
+                    Bukkit.getScheduler().runTask(AntikBase.getInstance(), () -> player.teleport(loc));
+                });
+
+            } else {
+                player.sendMessage("§cCe home n'existe pas");
+            }
+        });
+
+
+        /*homesInterface.homeExist(player, home).thenAccept(bool -> {
             if(bool) {
                 homesInterface.getHomeLocation(player, home).thenAccept(loc -> {
                     Bukkit.getScheduler().runTask(AntikBase.getInstance(), () -> player.teleport(loc));
@@ -126,7 +141,7 @@ public class HomeCommands implements CommandExecutor {
             } else {
                 player.sendMessage("§cCe home n'existe pas");
             }
-        });
+        });*/
 
         return true;
     }

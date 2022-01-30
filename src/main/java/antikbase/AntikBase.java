@@ -1,15 +1,14 @@
 package antikbase;
 
 import antikbase.commands.*;
+import antikbase.commands.pl.CustomCommand;
 import antikbase.economy.commands.EcoCommand;
 import antikbase.economy.commands.EcoTabCompleter;
 import antikbase.economy.commands.MoneyCommand;
 import antikbase.economy.commands.PayCommand;
 import antikbase.economy.events.JoinEvent;
-import antikbase.events.DisconnectEvent;
-import antikbase.events.ShulkerBoxInvEvent;
+import antikbase.events.*;
 import antikbase.events.chest.ChestEvents;
-import antikbase.events.TeleportEvent;
 import antikbase.events.chest.MinecartHopperEvent;
 import antikbase.managers.teleport.TeleportManager;
 import antikbase.recipes.Recipes;
@@ -33,12 +32,11 @@ import java.util.logging.Logger;
 public final class AntikBase extends JavaPlugin {
 
     private static AntikBase instance;
+    private PluginManager pluginManager;
+    private static final Logger log = Logger.getLogger("Minecraft");
+
 
     private Economy economy;
-
-    private PluginManager pluginManager;
-
-    private static final Logger log = Logger.getLogger("Minecraft");
 
     private WarpInterface warpInterface;
     private SpawnInterface spawnInterface;
@@ -87,23 +85,23 @@ public final class AntikBase extends JavaPlugin {
     }
 
     private void registerCommands() {
-        registerCommandExecutor(new SpawnCommands(), "spawn", "setspawn");
-        registerCommandExecutor(new WarpCommands(), "setwarp", "delwarp", "warp", "warps");
-        registerCommandExecutor(new TpCommands(), "tpa", "tpyes", "tp");
-        registerCommandExecutor(new RtpCommand(), "rtp");
-        registerCommandExecutor(new HomeCommands(), "sethome", "delhome", "home", "homes");
+        registerCommandExecutor(new SpawnCommands(), new CustomCommand("spawn"), new CustomCommand("setspawn"));
+        registerCommandExecutor(new WarpCommands(), new CustomCommand("setwarp"), new CustomCommand("delwarp"), new CustomCommand("warp"), new CustomCommand("warps"));
+        registerCommandExecutor(new TpCommands(), new CustomCommand("tpa"), new CustomCommand("tpyes"), new CustomCommand("tp"));
+        registerCommandExecutor(new RtpCommand(), new CustomCommand("rtp"));
+        registerCommandExecutor(new HomeCommands(), new CustomCommand("sethome"), new CustomCommand("delhome"), new CustomCommand("home"), new CustomCommand("homes"));
 
-        registerCommandExecutor(new StarterCommand(), "kitstarter");
+        registerCommandExecutor(new StarterCommand(), new CustomCommand("kitstarter"));
 
-        registerCommandExecutor(new MoneyCommand(), "money");
-        registerCommandExecutor(new PayCommand(), "pay");
+        registerCommandExecutor(new MoneyCommand(), new CustomCommand("money"));
+        registerCommandExecutor(new PayCommand(), new CustomCommand("pay"));
 
-        registerCommandExecutor(new EcoCommand(), "eco");
+        registerCommandExecutor(new EcoCommand(), new CustomCommand("eco"));
         registerTabCompleter(new EcoTabCompleter(), "eco");
 
-        registerCommandExecutor(new InvseeCommand(), "invsee");
+        registerCommandExecutor(new InvseeCommand(), new CustomCommand("invsee"));
 
-        registerCommandExecutor(new MessagesCommand(), Arrays.stream(MessagesCommand.CustomCommand.values()).map(cmd -> cmd.name().toLowerCase()).toArray(String[]::new));
+        registerCommandExecutor(new MessagesCommand(), Arrays.stream(MessagesCommand.CustomCommand.values()).map(cmd -> new CustomCommand(cmd.name().toLowerCase(), cmd.getAliases())).toArray(CustomCommand[]::new));
     }
 
     private void registerEvents() {
@@ -113,15 +111,21 @@ public final class AntikBase extends JavaPlugin {
         registerEvent(new JoinEvent());
         registerEvent(new MinecartHopperEvent());
         registerEvent(new ShulkerBoxInvEvent());
+        registerEvent(new AfkEvent());
+        registerEvent(new NPCsEvent());
     }
 
     private void registerShapes() {
         new Recipes(this);
     }
 
-    private void registerCommandExecutor(CommandExecutor executor, String... cmds) {
-        for (String cmd : cmds) {
-            getCommand(cmd).setExecutor(executor);
+    private void registerCommandExecutor(CommandExecutor executor, CustomCommand... cmds) {
+        for (CustomCommand cmd : cmds) {
+            getCommand(cmd.getCommand()).setExecutor(executor);
+
+            if(cmd.getAliases().size() > 0) {
+                getCommand(cmd.getCommand()).setAliases(cmd.getAliases());
+            }
         }
     }
 

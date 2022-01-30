@@ -13,7 +13,7 @@ public class WarpInterface extends SQL {
     private final String table = "Warps";
 
     public WarpInterface() {
-        this.connectToDb("localhost:3306/antikcubes", null, null);
+        this.connectToDb("localhost:3306/antikcubes", "antik", "ant!k127");
     }
 
     @Override

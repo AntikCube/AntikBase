@@ -1,22 +1,22 @@
 package antikbase.events;
 
 import org.bukkit.entity.Entity;
+import org.bukkit.entity.Villager;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.inventory.InventoryOpenEvent;
+import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.event.player.PlayerInteractAtEntityEvent;
-import org.bukkit.inventory.EquipmentSlot;
+import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.InventoryHolder;
 
 public class NPCsEvent implements Listener {
 
     @EventHandler
-    public void onInteract(PlayerInteractAtEntityEvent e) {
-        if(!e.getHand().equals(EquipmentSlot.HAND))
-            return;
+    public void onOpenTrade(InventoryOpenEvent e) {
+        Inventory inventory = e.getInventory();
+        InventoryHolder inventoryHolder = inventory.getHolder();
 
-        Entity entity = e.getRightClicked();
-
-        if(!entity.hasMetadata("NPC"))
-            return;
-
+        e.setCancelled(inventory.getType() == InventoryType.MERCHANT && inventoryHolder instanceof Villager);
     }
 }
