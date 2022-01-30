@@ -46,7 +46,9 @@ public class ShulkerBoxInvEvent implements Listener {
             return;
 
         ShulkerBox shulker = (ShulkerBox) blockStateMeta.getBlockState();
-        shulker.update();
+
+        if(shulker.getInventory().isEmpty())
+            return;
 
         e.getWhoClicked().openInventory(shulker.getInventory());
 
