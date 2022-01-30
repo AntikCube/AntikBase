@@ -37,7 +37,7 @@ public class AfkEvent implements Listener {
 
         this.afkMap.entrySet().stream()
                 .filter(entry -> !hasPermissions(entry.getKey(), "bypass") && (currentTime - entry.getValue()) > 300000)
-                .forEach(entry -> entry.getKey().kickPlayer("§cKick pour inactivité prolongée"));
+                .forEach(entry -> entry.getKey().kickPlayer("§cExclu pour inactivité"));
     }
 
     private boolean hasPermissions(Player player, String permission) {
