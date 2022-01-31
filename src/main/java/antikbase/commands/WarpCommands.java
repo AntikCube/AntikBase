@@ -118,7 +118,7 @@ public class WarpCommands implements CommandExecutor {
         }
 
         warpInterface.getWarpsList().thenAccept(warps -> {
-            player.sendMessage("§6Liste des warps disponible : \n§7" + StringUtils.join(warps, "§8, §7"));
+            player.sendMessage("§6Liste des warps disponibles : \n§7" + StringUtils.join(warps, "§8, §7"));
         });
 
         return true;
